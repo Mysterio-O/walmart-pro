@@ -25,7 +25,7 @@ export default async function Hero() {
                     </p>
                     <Link href="/products">
                         <button className="btn bg-gradient-to-b from-cyan-400 via-blue-400 to-white shadow-2xl hover:bg-white hover:text-white hover:border-cyan-400 hover:border-2 transition-all duration-200 rounded-xl">
-                            Products
+                            All Products
                         </button>
                     </Link>
                 </div>
