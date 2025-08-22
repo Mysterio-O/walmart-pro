@@ -16,7 +16,7 @@ export default function ProductDetails() {
             setLoading(true);
             setError(null);
             try {
-                const res = await axios.get(`http://localhost:5000/product/${params?.id}`);
+                const res = await axios.get(`https://walmart-server-ruddy.vercel.app/product/${params?.id}`);
                 setProduct(res?.data);
                 setLoading(false);
             } catch (err) {

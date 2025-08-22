@@ -13,7 +13,7 @@ export default function ProductsPage() {
     const fetchProducts = async () => {
       try {
         setLoading(true);
-        const response = await axios.get('http://localhost:5000/products');
+        const response = await axios.get('https://walmart-server-ruddy.vercel.app/products');
         setProducts(response?.data || []);
         setError(null);
       } catch (error) {
@@ -27,15 +27,27 @@ export default function ProductsPage() {
     fetchProducts();
   }, []);
 
-  console.log(products
-  );
+  console.log(products);
 
   return (
     <div className="max-w-7xl mx-auto p-6">
       <h2 className="text-3xl font-bold mb-6 text-center">Our Products</h2>
 
       {loading && (
-        <div className="text-center text-gray-600">Loading products...</div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* Skeleton cards */}
+          {[...Array(6)].map((_, index) => (
+            <div
+              key={index}
+              className="bg-white flex flex-col justify-between rounded-lg shadow-md p-6"
+            >
+              <div className="h-6 bg-gray-200 rounded shimmer-bg animate-shimmer mb-2"></div>
+              <div className="h-4 bg-gray-200 rounded shimmer-bg animate-shimmer mb-2"></div>
+              <div className="h-4 bg-gray-200 rounded shimmer-bg animate-shimmer mb-2"></div>
+              <div className="h-10 bg-gray-200 rounded shimmer-bg animate-shimmer"></div>
+            </div>
+          ))}
+        </div>
       )}
 
       {error && (

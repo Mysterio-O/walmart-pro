@@ -4,7 +4,6 @@ import Navbar from "./components/ui/Navbar";
 import Footer from "./components/ui/Footer";
 import AuthProvider from "./components/Providers/SessionProvider";
 import { getServerSession } from "next-auth";
-import { ThemeProvider } from "./components/Providers/ThemeProvider";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -27,27 +26,25 @@ export default async function RootLayout({ children }) {
   return (
     <html lang="en">
       <AuthProvider>
-        <ThemeProvider>
-          <body
-            className={`${geistSans.variable} ${geistMono.variable} antialiased max-w-[1400px] mx-auto`}
-          >
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased max-w-[1400px] mx-auto`}
+        >
 
-            <header>
-              <nav className="">
-                <Navbar />
-              </nav>
-            </header>
+          <header>
+            <nav className="">
+              <Navbar />
+            </nav>
+          </header>
 
-            <main className="min-h-[calc(100vh-242px)]">
-              {children}
-            </main>
+          <main className="min-h-[calc(100vh-242px)]">
+            {children}
+          </main>
 
-            <footer>
-              <Footer />
-            </footer>
+          <footer>
+            <Footer />
+          </footer>
 
-          </body>
-        </ThemeProvider>
+        </body>
       </AuthProvider>
     </html>
   );

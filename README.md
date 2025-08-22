@@ -48,7 +48,7 @@ WalmartPro is an e-commerce platform where users can list and browse products. B
    NEXTAUTH_SECRET=your-secret-key
    GOOGLE_CLIENT_ID=your-google-client-id
    GOOGLE_CLIENT_SECRET=your-google-client-secret
-   API_URL=http://localhost:5000
+   API_URL=https://walmart-server-ruddy.vercel.app
    ```
 
 **Run the development server:**

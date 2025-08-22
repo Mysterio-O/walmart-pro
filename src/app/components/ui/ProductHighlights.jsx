@@ -12,7 +12,7 @@ export default function ProductHighlights() {
             setLoading(true);
             setError(null);
             try {
-                const res = await axios.get('http://localhost:5000/products?limit=3');
+                const res = await axios.get('https://walmart-server-ruddy.vercel.app/products?limit=3');
                 setProducts(res.data || []);
                 setLoading(false);
             } catch (err) {

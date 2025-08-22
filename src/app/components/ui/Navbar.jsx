@@ -32,7 +32,7 @@ export default function Navbar() {
     return (
         <div className="navbar bg-base-100 dark:bg-gray-500 shadow-sm flex justify-between px-4">
             <div className="">
-                <a className="btn btn-ghost text-xl">WalmartPro</a>
+                <Link href="/" className="btn btn-ghost text-xl">WalmartPro</Link>
             </div>
             <div>
                 <ul className='flex items-center justify-between gap-4 list-none'>

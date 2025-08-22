@@ -70,7 +70,7 @@ export default function AddProduct() {
         }
 
         try {
-            const res = await axios.post('http://localhost:5000/add-product', productData);
+            const res = await axios.post('https://walmart-server-ruddy.vercel.app/add-product', productData);
             console.log('Response:', res);
 
             if (res?.data?.result?.insertedId) {

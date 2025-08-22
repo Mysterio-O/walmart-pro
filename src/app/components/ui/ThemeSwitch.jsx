@@ -1,12 +1,15 @@
 'use client'
-import { useTheme } from "../Providers/ThemeProvider";
 import { MdDarkMode } from "react-icons/md";
 import { CiLight } from "react-icons/ci";
 import { motion } from 'motion/react';
+import { useState } from "react";
 
 const ThemeSwitch = () => {
-    const { theme, toggleTheme } = useTheme();
     // console.log('current theme->', theme, 'fn toggleTheme->', toggleTheme)
+    const [theme,setTheme] = useState('light');
+    const toggleTheme = ()=> {
+        setTheme(prev => prev === 'light' ? 'dark' : 'light')
+    }
 
     const iconVariants = {
         initial: { scale: 1, rotate: "0deg" },
