@@ -2,6 +2,7 @@ import { MongoClient, ServerApiVersion } from "mongodb"
 
 export const collectionNames = {
     USER: "users",
+    PRODUCT:"products"
 }
 
 

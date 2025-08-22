@@ -49,7 +49,24 @@ export const authOptions = {
             clientId: process.env.GOOGLE_CLIENT_ID,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET,
             profile: async (profile, token) => {
+                const collection = await dbConnect(collectionNames.USER);
+                const existingUser = await collection.findOne({ email: profile.email });
 
+                if (!existingUser) {
+                    // Create a new user if they don't exist
+                    const newUser = {
+                        email: profile.email,
+                        firstName: profile.given_name,
+                        lastName: profile.family_name,
+                        name: profile.name,
+                        createdAt: new Date(),
+                    };
+                    const result = await collection.insertOne(newUser);
+                    newUser._id = result.insertedId;
+                    return newUser;
+                }
+
+                return existingUser;
             }
         }),
     ],
@@ -72,5 +89,6 @@ export const authOptions = {
             }
             return token
         }
-    }
+    },
+    secret: process.env.NEXTAUTH_SECRET,
 }
