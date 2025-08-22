@@ -1,6 +1,7 @@
 'use client'
 
 import axios from "axios";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function ProductsPage() {
@@ -26,6 +27,9 @@ export default function ProductsPage() {
     fetchProducts();
   }, []);
 
+  console.log(products
+  );
+
   return (
     <div className="max-w-7xl mx-auto p-6">
       <h2 className="text-3xl font-bold mb-6 text-center">Our Products</h2>
@@ -47,29 +51,18 @@ export default function ProductsPage() {
           {products.map((product) => (
             <div
               key={product._id}
-              className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300"
+              className="bg-white flex flex-col justify-between rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300"
             >
               <h3 className="text-xl font-semibold mb-2">{product.name}</h3>
               <p className="text-gray-600 mb-2">
                 <span className="font-medium">Price:</span> ${parseFloat(product.price).toFixed(2)}
               </p>
               <p className="text-gray-600 mb-2">
-                <span className="font-medium">Category:</span> {product.category.charAt(0).toUpperCase() + product.category.slice(1)}
-              </p>
-              <p className="text-gray-600 mb-2">
-                <span className="font-medium">Stock:</span> {product.stock}
-              </p>
-              <p className="text-gray-600 mb-2">
                 <span className="font-medium">Description:</span> {product.description}
               </p>
-              <p className="text-gray-500 text-sm">
-                <span className="font-medium">Added on:</span>{" "}
-                {new Date(product.createdAt).toLocaleDateString("en-US", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}
-              </p>
+              <Link href={`/products/${product._id}`}>
+                <button className="btn bg-white btn-outline-black text-black hover:bg-gray-100">View More</button>
+              </Link>
             </div>
           ))}
         </div>

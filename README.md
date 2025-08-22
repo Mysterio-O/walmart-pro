@@ -1,36 +1,73 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# WalmartPro
 
-## Getting Started
+WalmartPro is an e-commerce platform where users can list and browse products. Built with Next.js and powered by a Node.js backend, it supports user authentication and product management.
 
-First, run the development server:
+[Live Demo](https://walmart-pro.vercel.app)  
+[Backend Repository](https://github.com/Mysterio-O/walmart-pro-server)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Product Highlights
+- Showcases a curated selection of featured products on the homepage.
+- Randomly selected or prioritized based on backend logic.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+### Products (/products)
+- Displays a catalog of all products listed by registered users.
+- Includes a "View More" button to access detailed product information.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Add Product (/dashboard/add-product)
+- Allows authenticated users to list new products.
+- Protected route: Requires user login to access.
+- Form includes fields for product name, price, description, category, and stock quantity.
 
-## Learn More
+### Authentication
+- Implemented using NextAuth.js.
+- Supports login with email/password credentials or Google OAuth.
 
-To learn more about Next.js, take a look at the following resources:
+## Prerequisites
+- Node.js (version 16.x or higher)
+- npm or yarn
+- A running instance of the backend server (see [Backend Repository](https://github.com/Mysterio-O/walmart-pro-server) for setup instructions)
+- Environment variables configured in a `.env.local` file (see below)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+ ## Installation
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+ ```bash
+ git clone https://github.com/Mysterio-O/walmart-pro.git
+ cd walmart-pro
+ npm install
+ npm run dev
+ ```
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+ **Set up environment variables:**
+  - Create a .env.local file in the root directory.
+  - Add the necessary environment variables (e.g., NextAuth secrets, backend API URL). Example:
+  ```env
+   NEXTAUTH_URL=http://localhost:3000
+   NEXTAUTH_SECRET=your-secret-key
+   GOOGLE_CLIENT_ID=your-google-client-id
+   GOOGLE_CLIENT_SECRET=your-google-client-secret
+   API_URL=http://localhost:5000
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**Run the development server:**
+ ```bash
+ npm run dev
+ ```
+
+ **Set up the backend:**
+  - Set up the backend: Follow the instructions in the [Backend Repository](https://github.com/Mysterio-O/walmart-pro-server) to set up and run the backend server.
+
+  ## Usage
+   - Visit /products to browse all listed products.
+   - Log in via /login to access the /dashboard/add-product route and list new products.
+   - View featured products on the homepage.
+
+ ## Contributing
+  Contributions are welcome! Please open an issue or submit a pull request with your changes.
+
+  ## License
+
+
+This project is licensed under the MIT License.

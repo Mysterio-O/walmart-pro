@@ -88,6 +88,19 @@ export const authOptions = {
                 token.name = user?.firstName + ' ' + user?.lastName;
             }
             return token
+        },
+        async redirect({ url, baseUrl }) {
+            // Parse the URL to extract query parameters
+            const parsedUrl = new URL(url, baseUrl);
+            const callbackUrl = parsedUrl.searchParams.get('callbackUrl');
+
+            // If it's a sign-out request and callbackUrl is provided, use it
+            if (parsedUrl.pathname.includes('/api/auth/signout') && callbackUrl) {
+                return new URL(callbackUrl, baseUrl).toString();
+            }
+
+            // Default to /products for sign-in
+            return baseUrl + '/products';
         }
     },
     secret: process.env.NEXTAUTH_SECRET,

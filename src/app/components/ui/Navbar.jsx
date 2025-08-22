@@ -2,6 +2,7 @@
 import Link from 'next/link'
 import React from 'react'
 import { signIn, signOut, useSession } from 'next-auth/react'
+import ThemeSwitch from './ThemeSwitch';
 
 export default function Navbar() {
 
@@ -22,14 +23,14 @@ export default function Navbar() {
             to: "/dashboard/add-product"
         },
         !session?.user && { name: "Register", to: "/signup" },
-        session?.user ? { name: "Logout", onclick: () => signOut() }
+        session?.user ? { name: "Logout", onclick: () => signOut({ callbackUrl: '/' }) }
             : { name: "Login", onclick: () => signIn() }
     ]
 
 
 
     return (
-        <div className="navbar bg-base-100 shadow-sm flex justify-between px-4">
+        <div className="navbar bg-base-100 dark:bg-gray-500 shadow-sm flex justify-between px-4">
             <div className="">
                 <a className="btn btn-ghost text-xl">WalmartPro</a>
             </div>
@@ -47,16 +48,8 @@ export default function Navbar() {
                     }
                 </ul>
             </div>
-            <div className="flex-none">
-                <div className="dropdown dropdown-end">
-                    <div  className="btn btn-ghost btn-circle avatar">
-                        <div className="w-10 rounded-full">
-                            <img
-                                alt="Tailwind CSS Navbar component"
-                                src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
-                        </div>
-                    </div>
-                </div>
+            <div>
+                <ThemeSwitch />
             </div>
         </div>
     )

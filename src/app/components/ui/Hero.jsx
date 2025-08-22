@@ -1,8 +1,10 @@
 import { authOptions } from '@/lib/authOptions';
 import { getServerSession } from 'next-auth'
+import Link from 'next/link';
 import React from 'react'
 
 export default async function Hero() {
+
 
     const session = await getServerSession(authOptions);
     console.log(session);
@@ -21,7 +23,11 @@ export default async function Hero() {
                     <p className="py-6">
                         WalmartPro makes shopping easy and convenient. Enjoy our wide range of products at unbeatable prices. Don't miss out on our exclusive offers and discounts!
                     </p>
-                    <button className="btn bg-gradient-to-b from-cyan-400 via-blue-400 to-white shadow-2xl hover:bg-white hover:text-white hover:border-cyan-400 hover:border-2 transition-all duration-200 rounded-xl">Products</button>
+                    <Link href="/products">
+                        <button className="btn bg-gradient-to-b from-cyan-400 via-blue-400 to-white shadow-2xl hover:bg-white hover:text-white hover:border-cyan-400 hover:border-2 transition-all duration-200 rounded-xl">
+                            Products
+                        </button>
+                    </Link>
                 </div>
             </div>
         </div>
