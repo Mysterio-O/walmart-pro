@@ -1,9 +1,12 @@
 'use client'
 import Link from 'next/link'
 import React from 'react'
-import { signIn, useSession } from 'next-auth/react'
+import { signIn, signOut, useSession } from 'next-auth/react'
 
 export default function Navbar() {
+
+    const { data: session } = useSession();
+    // console.log(session);
 
     const links = [
         {
@@ -18,14 +21,11 @@ export default function Navbar() {
             name: "About",
             to: "/about"
         },
-        {
-            name: "Login",
-            onclick: () => signIn(),
-        },
+        session?.user ? { name: "Logout", onclick: () => signOut() }
+            : { name: "Login", onclick: () => signIn() }
     ]
 
-    const {data:session}=useSession();
-    // console.log(session);
+
 
     return (
         <div className="navbar bg-base-100 shadow-sm flex justify-between px-4">
@@ -39,7 +39,7 @@ export default function Navbar() {
                             <li key={idx}>
                                 {
                                     link.to ? <Link href={link.to}>{link.name}</Link>
-                                    : link.onclick &&  <button onClick={link.onclick} className="btn bg-white text-black">{link.name}</button> 
+                                        : link.onclick && <button onClick={link.onclick} className="btn bg-white text-black">{link.name}</button>
                                 }
                             </li>
                         ))

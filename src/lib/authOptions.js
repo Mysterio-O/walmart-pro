@@ -1,5 +1,6 @@
 import CredentialsProvider from "next-auth/providers/credentials";
 import dbConnect, { collectionNames } from "./dbConnect";
+import GoogleProvider from "next-auth/providers/google";
 
 export const authOptions = {
     providers: [
@@ -18,7 +19,7 @@ export const authOptions = {
                 // Add logic here to look up the user from the credentials supplied
                 const { email, password } = credentials;
                 console.log(email, password, 'from authorize function');
-                console.log(collectionNames.USER,'from authorize function');
+                console.log(collectionNames.USER, 'from authorize function');
                 const collectionName = collectionNames.USER;
                 const existingUser = await dbConnect(collectionName).findOne({ email })
                 console.log(existingUser, 'from authorize function');
@@ -34,12 +35,16 @@ export const authOptions = {
                     // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
                 }
             }
-        })
+        }),
+        GoogleProvider({
+            clientId: process.env.GOOGLE_CLIENT_ID,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET
+        }),
     ],
     callbacks: {
         async session({ session, token, user }) {
-            console.log(session,'from callbacks session');
-            if(session){
+            console.log(session, 'from callbacks session');
+            if (session) {
                 session.user.id = token.id;
                 session.user.email = token.email;
                 session.user.name = token.name;
@@ -47,8 +52,8 @@ export const authOptions = {
             return session
         },
         async jwt({ token, user, account, profile, isNewUser }) {
-            console.log(user,'from callbacks jwt');
-            if(user){
+            console.log(user, 'from callbacks jwt');
+            if (user) {
                 token.id = user?._id;
                 token.email = user.email;
                 token.name = user?.firstName + ' ' + user?.lastName;
