@@ -1,7 +1,44 @@
-import React from 'react'
+'use client'
+import React, { useState } from 'react'
 import Link from 'next/link'
+import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 export default function LoginPage() {
+
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
+    const router = useRouter();
+
+
+    const handleLogin = (e) => {
+        e.preventDefault();
+
+        setLoading(true);
+
+        const form = e.target;
+        const email = form.email.value;
+        const password = form.password.value;
+
+        // console.log(email, password);
+
+        const result = signIn('credentials', {
+            email,
+            password,
+            redirect: false
+        });
+
+        if (result?.error) {
+            setLoading(false);
+            setError("Invalid email or password");
+        }
+        else {
+            router.push("/dashboard/add-product");
+            setLoading(false);
+        }
+
+    }
+
     return (
         <div className="min-h-screen flex items-center justify-center bg-base-200 py-8">
             <div className="card w-full max-w-md shadow-2xl bg-base-100">
@@ -12,8 +49,15 @@ export default function LoginPage() {
                         <p className="text-base-content/70 mt-2">Enter your credentials to access your account</p>
                     </div>
 
+                    {/* Error Message */}
+                    {error && (
+                        <div className="alert alert-error">
+                            <span>{error}</span>
+                        </div>
+                    )}
+
                     {/* Login Form */}
-                    <form className="space-y-4">
+                    <form onSubmit={handleLogin} className="space-y-4">
                         {/* Email Field */}
                         <div className="form-control">
                             <label htmlFor="emailInput" className="label">

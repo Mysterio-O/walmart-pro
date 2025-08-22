@@ -1,6 +1,12 @@
+import { authOptions } from '@/lib/authOptions';
+import { getServerSession } from 'next-auth'
 import React from 'react'
 
-export default function Hero() {
+export default async function Hero() {
+
+    const session = await getServerSession(authOptions);
+    console.log(session);
+
     return (
         <div className="hero bg-base-200 py-12 px-8">
             <div className="hero-content flex-col lg:flex-row-reverse">

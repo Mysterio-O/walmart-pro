@@ -1,5 +1,7 @@
+'use client'
 import Link from 'next/link'
 import React from 'react'
+import { signIn, useSession } from 'next-auth/react'
 
 export default function Navbar() {
 
@@ -18,9 +20,12 @@ export default function Navbar() {
         },
         {
             name: "Login",
-            to: "/login"
-        }
+            onclick: () => signIn(),
+        },
     ]
+
+    const {data:session}=useSession();
+    // console.log(session);
 
     return (
         <div className="navbar bg-base-100 shadow-sm flex justify-between px-4">
@@ -32,7 +37,10 @@ export default function Navbar() {
                     {
                         links.map((link, idx) => (
                             <li key={idx}>
-                                <Link href={link.to}>{link.name}</Link>
+                                {
+                                    link.to ? <Link href={link.to}>{link.name}</Link>
+                                    : link.onclick &&  <button onClick={link.onclick} className="btn bg-white text-black">{link.name}</button> 
+                                }
                             </li>
                         ))
                     }
