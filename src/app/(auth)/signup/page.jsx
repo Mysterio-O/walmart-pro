@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { registerUser } from '@/app/actions/auth/registerUser';
+import { signIn } from 'next-auth/react';
 
 export default function SignUpPage() {
     const [formData, setFormData] = useState({
@@ -17,6 +18,7 @@ export default function SignUpPage() {
     const [errors, setErrors] = useState({});
     const [isLoading, setIsLoading] = useState(false);
     const [successMessage, setSuccessMessage] = useState('');
+    const [isError, setIsError] = useState('');
     const router = useRouter();
 
     const handleInputChange = (e) => {
@@ -77,12 +79,12 @@ export default function SignUpPage() {
             return;
         }
 
-         const userData = {
-                    firstName: formData.firstName,
-                    lastName: formData.lastName,
-                    email: formData.email,
-                    password: formData.password,
-                }
+        const userData = {
+            firstName: formData.firstName,
+            lastName: formData.lastName,
+            email: formData.email,
+            password: formData.password,
+        }
 
         console.log('Form data being sent:', formData);
 
@@ -92,8 +94,27 @@ export default function SignUpPage() {
 
         const response = await registerUser(userData);
         console.log(response);
+
+        if (response.error) {
+            setIsError(response.error);
+            setErrors({ submit: response.error });
+            setIsLoading(false);
+        } else {
+            setIsError('');
+            setSuccessMessage('Account created successfully! You can now log in.');
+            setErrors({});
+            setFormData({
+                firstName: '',
+                lastName: '',
+                email: '',
+                password: '',
+                confirmPassword: '',
+                agreeToTerms: false,
+            })
+        }
+
         setIsLoading(false);
-        
+
     };
 
     return (
@@ -310,9 +331,9 @@ export default function SignUpPage() {
                     <div className="text-center mt-6">
                         <p className="text-base-content/70">
                             Already have an account?{' '}
-                            <Link href="/login" className="link link-primary font-semibold">
+                            <span onClick={()=> signIn()} className="link link-primary font-semibold">
                                 Sign in here
-                            </Link>
+                            </span>
                         </p>
                     </div>
 

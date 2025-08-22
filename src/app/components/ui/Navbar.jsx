@@ -21,6 +21,7 @@ export default function Navbar() {
             name: "About",
             to: "/about"
         },
+        !session?.user && { name: "Register", to: "/signup" },
         session?.user ? { name: "Logout", onclick: () => signOut() }
             : { name: "Login", onclick: () => signIn() }
     ]

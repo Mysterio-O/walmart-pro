@@ -1,6 +1,7 @@
 import CredentialsProvider from "next-auth/providers/credentials";
 import dbConnect, { collectionNames } from "./dbConnect";
 import GoogleProvider from "next-auth/providers/google";
+import bcrypt from 'bcrypt';
 
 export const authOptions = {
     providers: [
@@ -13,7 +14,7 @@ export const authOptions = {
             // You can pass any HTML attribute to the <input> tag through the object.
             credentials: {
                 email: { label: "Email", type: "email", placeholder: "jsmith@gmail.com" },
-                password: { label: "Password", type: "password" }
+                password: { label: "Password", type: "password", placeholder: "********" }
             },
             async authorize(credentials, req) {
                 // Add logic here to look up the user from the credentials supplied
@@ -23,11 +24,19 @@ export const authOptions = {
                 const collectionName = collectionNames.USER;
                 const existingUser = await dbConnect(collectionName).findOne({ email })
                 console.log(existingUser, 'from authorize function');
-                const isPasswordOkay = existingUser && existingUser.password === password;
 
-                if (isPasswordOkay) {
+                if (!existingUser) {
+                    console.log('No user found with the given email');
+                    return null
+                }
+
+                if (existingUser && existingUser.password) {
                     // Any object returned will be saved in `user` property of the JWT
-                    return existingUser
+                    const isPasswordValid = await bcrypt.compare(password, existingUser.password);
+                    if (isPasswordValid) {
+                        return existingUser
+                    }
+
                 } else {
                     // If you return null then an error will be displayed advising the user to check their details.
                     return null
@@ -38,7 +47,10 @@ export const authOptions = {
         }),
         GoogleProvider({
             clientId: process.env.GOOGLE_CLIENT_ID,
-            clientSecret: process.env.GOOGLE_CLIENT_SECRET
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+            profile: async (profile, token) => {
+
+            }
         }),
     ],
     callbacks: {
